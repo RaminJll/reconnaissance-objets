@@ -1,12 +1,13 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 import tensorflow as tf
+import tensorflow.keras as keras
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
 
 app = Flask(__name__)
-model = keras.models.load_model("./mon_model.keras")
+model = keras.models.load_model("./mon_modele.keras")
 
 if not model:
     model = None
@@ -17,7 +18,7 @@ LABELS = ['Clavier', 'Manette', 'Tasse', 'Verre']
 def predict_image(subject):
     img = image.load_img(subject, target_size=(224, 224))
     img_array = image.img_to_array(img)
-    img_array = np.extend_dims(img_array, axis = 0)
+    img_array = np.expand_dims(img_array, axis = 0)
     
     img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array)
     
@@ -26,7 +27,9 @@ def predict_image(subject):
     
     return LABELS[prediction_class], float(predictions[0][prediction_class])
 
-
+@app.route('/')
+def home():
+    return render_template("index.html")
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -44,7 +47,7 @@ def predict():
     
     os.remove(file_path)
     
-    return jsonify({"objet" : label, 'probabilite' : round(probabilite, 4)})
+    return jsonify({'objet' : label, 'probabilite' : round(probabilite, 4)})
 
   
 if __name__ ==  '__main__':
