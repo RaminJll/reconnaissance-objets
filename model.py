@@ -53,4 +53,4 @@ print("début d'entrainement")
 
 history = model.fit(train_dataset, epochs = 10)
 
-model.save("mon_modele.h5")
+model.save("mon_modele.keras")
