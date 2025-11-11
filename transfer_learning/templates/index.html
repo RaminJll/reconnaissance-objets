@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reconnaissance d'Objets en Direct</title>
+    <style>
+        .container {
+            text-align: center;
+        }
+
+        video {
+            border: 2px solid black;
+        }
+
+        #canvas {
+            display: none;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Montrez un objet à la caméra :</h2>
+
+        <video id="camera" width="224" height="224" autoplay playsinline></video>
+        <br>
+
+        <button id="captureButton">PRÉDIRE l'Objet</button>
+
+        <canvas id="canvas" width="224" height="224"></canvas>
+
+        <p id="result">Résultat : En attente...</p>
+    </div>
+
+    <script src="./static/camera.js"></script>
+
+</body>
+
+</html>
