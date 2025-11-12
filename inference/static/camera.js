@@ -1,6 +1,7 @@
 const video = document.getElementById('camera');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
+let resultat =  document.getElementById('result')
 navigator.mediaDevices.getUserMedia({ video: true })
     .then((stream) => {
         video.srcObject = stream;
@@ -24,8 +25,13 @@ function captureAndSend() {
         })
         .then(response => response.json())
         .then(data => {
-            document.getElementById('result').textContent = 
-                `Prédiction : ${data.objet} (${(data.probabilite * 100).toFixed(2)}%)`;
+            htmlContent = ""
+            const predictionList = data.predictions;
+            predictionList.forEach((prediction, index) => {
+                htmlContent += `<p>${index + 1} : ${prediction.label} (${prediction.probabilite})</p>`;
+            });
+            resultat.innerHTML = htmlContent
+            console.log(data)
         })
         .catch(error => console.error('Erreur lors de l\'envoi à l\'API :', error));
     }, 'image/jpeg');

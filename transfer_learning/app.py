@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify
 import tensorflow as tf
 import tensorflow.keras as keras
 from tensorflow.keras.models import load_model
+from tensorflow.keras.applications.mobilenet_v2 import decode_predictions
 from tensorflow.keras.preprocessing import image
 import numpy as np
 
@@ -21,8 +22,28 @@ def predict_image(subject):
     img_array = np.expand_dims(img_array, axis = 0)
     
     img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array)
-    
     predictions = model.predict(img_array)
+
+    # top 3 des classe avec la probabilité la plus forte 
+    # renvoie un tab donc faut que je modifie le front si j'utilise cette methode
+    '''preds_array = predictions[0]
+    top3 = np.argsort(preds_array)[::-1][:3]
+
+    results = []
+    # Boucler sur ces 3 meilleurs indices
+    for i in top3:
+        label = LABELS[i]
+        confiance = float(preds_array[i])
+    
+    # Ajout des résultat formaté à la liste
+    results.append({
+        "objet": label,
+        "confiance": f"{confiance * 100:.2f}%"
+    })
+
+    return results'''
+
+    # directement la classe avec la probabilité la plus forte
     prediction_class = np.argmax(predictions[0])
     
     return LABELS[prediction_class], float(predictions[0][prediction_class])
@@ -45,8 +66,12 @@ def predict():
     
     label, probabilite = predict_image(file_path)
     
+    #top3_results = predict_image(file_path)
+
     os.remove(file_path)
-    
+
+    #return jsonify(top3_results)
+
     return jsonify({'objet' : label, 'probabilite' : round(probabilite, 4)})
 
   
