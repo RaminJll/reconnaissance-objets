@@ -18,7 +18,7 @@ function captureAndSend() {
         formData.append('file', blob, 'capture.jpg'); // Le nom 'file' doit correspondre à 'request.files['file']' dans Flask
 
         // 3. Envoyer le fichier à l'API Flask
-        fetch('http://127.0.0.1:5000/predict', {
+        fetch('http://127.0.0.1:5001/predict', {
             method: 'POST',
             body: formData
         })

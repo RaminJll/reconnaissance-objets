@@ -15,4 +15,3 @@ EXPOSE 5000
 ENV APP_TARGET=inference
 
 ENTRYPOINT ["/app/entrypoint.sh"]
-

@@ -1,5 +1,6 @@
 import os
 from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
 import tensorflow as tf
 import tensorflow.keras as keras
 from tensorflow.keras.models import load_model
@@ -10,6 +11,7 @@ from PIL import Image
 import io
 
 app = Flask(__name__)
+CORS(app)
 model = keras.models.load_model("./mon_modele.keras")
 
 if not model:

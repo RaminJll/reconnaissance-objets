@@ -1,5 +1,6 @@
 import os
 from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
 import tensorflow as tf
 import tensorflow.keras as keras
 from tensorflow.keras.models import load_model
@@ -8,6 +9,7 @@ from tensorflow.keras.preprocessing import image
 import numpy as np
 
 app = Flask(__name__)
+CORS(app)
 model = keras.models.load_model("./mon_modele.keras")
 
 if not model:
@@ -76,4 +78,4 @@ def predict():
 
   
 if __name__ ==  '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
